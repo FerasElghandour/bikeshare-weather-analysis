@@ -6,6 +6,48 @@ A quality-gated data pipeline and chronological modelling benchmark that connect
 
 [![Quality checks](https://github.com/FerasElghandour/bikeshare-weather-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/FerasElghandour/bikeshare-weather-analysis/actions/workflows/ci.yml)
 
+## How it works
+
+```mermaid
+flowchart TD
+    N0["Hourly rental counts"] --> N1
+    N1["Exclude incomplete 24-hour days"] --> N2
+    N2["Aggregate counts and join daily weather"] --> N3
+    N3["Fit weekday-adjusted analysis"] --> N4
+    N4["Inspect estimates and data-quality audit"]
+```
+
+## Try a small example
+
+A small offline fixture exercises the public implementation. It demonstrates the behavior shown below; it does not replace the historical dataset, benchmark or production validation.
+
+After the local setup below, run from the repository root:
+
+```sh
+python examples/quickstart.py
+```
+
+The [example source](examples/quickstart.py), [captured output](examples/expected-output.txt) and [execution record](examples/environment.json) keep this demonstration inspectable. Floating-point values may vary with library versions.
+
+Observed output from this run:
+
+```text
+{
+  "fixture": "generated two days with one missing hour",
+  "audit": {
+    "hourly_rows": 47,
+    "calendar_days": 2,
+    "missing_hour_slots": 1,
+    "complete_hour_days": 1,
+    "weather_incomplete_days": 0,
+    "analysis_days": 1
+  },
+  "retained_daily_rentals": [
+    72
+  ]
+}
+```
+
 ## What the evidence shows
 
 The calendar-and-weather model reduces final-holdout mean absolute error by **35.7%** relative to a seven-day observed-lag baseline. Earlier expanding-window validation also exposes a period where the lag baseline performs better.

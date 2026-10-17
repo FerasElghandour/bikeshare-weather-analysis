@@ -1,0 +1,1 @@
+{"fixture": "generated two days with one missing hour", "audit": {"hourly_rows": 47, "calendar_days": 2, "missing_hour_slots": 1, "complete_hour_days": 1, "weather_incomplete_days": 0, "analysis_days": 1}, "retained_daily_rentals": [72]}
