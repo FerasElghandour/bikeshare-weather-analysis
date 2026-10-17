@@ -10,6 +10,15 @@ A quality-gated data pipeline and chronological modelling benchmark that connect
 
 ![Implementation mechanism: Hourly rental counts → Exclude incomplete 24-hour days → Aggregate counts and join daily weather → Fit weekday-adjusted analysis → Inspect estimates and data-quality audit](assets/mechanism.svg)
 
+
+
+## Reproduce and inspect
+
+The executable reproduction profile now records exact commands, input/source hashes, dependency versions, logs and pass/fail status. Its scope distinguishes behavior checks from full-data benchmarks.
+
+[Commands, artifacts and benchmark scope](BENCHMARKS.md) · [Versioned profiles](reproduction.json)
+
+
 ## Try a small example
 
 A small offline fixture exercises the public implementation. It demonstrates the behavior shown below; it does not replace the historical dataset, benchmark or production validation.
