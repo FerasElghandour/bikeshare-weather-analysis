@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "feras-bikeshare-weather-analysis"
+version = "1.1.0"
+description = "Reproducible analysis and interactive evidence report"
+requires-python = ">=3.11"
+authors = [{name = "Feras Elghandour"}]
+dependencies = ["numpy>=1.26,<3", "pandas>=2.2,<4", "scikit-learn>=1.5,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+notebooks = ["jupyterlab>=4,<5", "matplotlib>=3.8,<4", "seaborn>=0.13,<1", "requests>=2.31,<3", "ucimlrepo==0.0.7"]
+
+[project.scripts]
+bikeshare-weather-analysis = "mobility_weather.analysis:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "src"]

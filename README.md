@@ -1,53 +1,63 @@
-# Bike-Share Demand & Weather
+# Weather-Aware Bike-Share Demand Analysis
 
-How does weather relate to bike-share demand—and how much can incomplete data distort the answer? This project combines hourly rental records with daily weather observations to build a validated dataset for demand analysis.
+A quality-gated data pipeline and chronological modelling benchmark that connects hourly rental counts with daily weather observations.
 
-**Python · pandas · NumPy · Matplotlib · seaborn · requests**
+**[Open the interactive report](https://feraselghandour.github.io/bikeshare-weather-analysis/)** · [Architecture](ARCHITECTURE.md) · [Methods and validation](VALIDATION.md)
 
-![Daily rental distributions by precipitation group and year](assets/analysis.png)
+[![Quality checks](https://github.com/FerasElghandour/bikeshare-weather-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/FerasElghandour/bikeshare-weather-analysis/actions/workflows/ci.yml)
 
-## Results
+## What the evidence shows
 
-| Finding | Result |
+The calendar-and-weather model reduces final-holdout mean absolute error by **35.7%** relative to a seven-day observed-lag baseline. Earlier expanding-window validation also exposes a period where the lag baseline performs better.
+
+| Measure | Result |
 |---|---|
-| Missing date/hour slots identified | 165 across 76 dates |
-| Median rentals on precipitation days, relative to zero-reported days | 17.3% lower in 2011; 20.4% lower in 2012 |
-| Rental coverage for the main comparison | Dates with all 24 coded hours |
+| Final holdout | 122 dates, August 21–December 30, 2012 |
+| Calendar + weather MAE | 680.4 rentals/day |
+| Seven-day observed-lag MAE | 1,058.2 rentals/day |
+| Calendar-only MAE | 1,388.9 rentals/day |
+| Quality gate | 165 absent date/hour slots identified before aggregation |
 
-## Implementation
+The interactive report includes selectable comparisons, a matching numerical table, CSV/JSON downloads and the reproducibility record. It also works offline: download `docs/index.html` and open it in a browser.
 
-- Integrated UCI Capital Bikeshare counts with NOAA station observations using two different acquisition methods.
-- Decoded weather missing-value and quality flags, reshaped monthly records into daily observations, and aligned units before joining sources.
-- Built validation checks for duplicate keys, hour coverage, rental totals and temperature consistency.
-- Separated raw inputs, cleaned tables and figures, with a source manifest for traceability.
+[![Interactive evidence report](assets/report-preview.png)](https://feraselghandour.github.io/bikeshare-weather-analysis/)
 
-## Practical relevance
+## Engineering
 
-Demonstrates the data preparation and validation work behind operational reporting, demand analysis and forecasting pipelines. The weather comparisons provide questions to investigate when planning fleet availability.
+- Validated fixed-width weather ingestion, missing-value decoding and quality-flag handling.
+- Unique-key and count-identity checks before the daily join; incomplete-hour dates excluded explicitly.
+- Four baselines evaluated on identical dates, plus three expanding-window validation folds inside the training period.
+- A downloadable results record with input and source-code fingerprints, estimator settings and dependency versions.
 
-## Explore the project
+The analysis is packaged under `src/mobility_weather/`; notebooks remain available for the longer exploratory narrative. Small root-level entry points preserve existing commands.
 
-- `bikeshare_weather.ipynb` — acquisition, assessment, cleaning, validation and analysis.
-- `raw/uci_bikeshare_hourly.csv` — attributed hourly input.
-- `DATA.md` — source details and input requirements.
+## Reproduce
 
-## Run locally
+Use Python 3.11 or later and a separate virtual environment for this repository.
 
 ```sh
 python -m venv .venv
 . .venv/bin/activate
-python -m pip install -r requirements.txt
-jupyter lab
+python -m pip install -e ".[dev]"
+python -m mobility_weather --rentals raw/uci_bikeshare_hourly.csv --weather /path/to/USW00013743.dly --output reports
+python -m pytest -q
 ```
 
-Open `bikeshare_weather.ipynb` from the repository root and run the cells in order. The first run downloads the NOAA station file. Output tables and charts are written to `cleaned/` and `figures/`.
+The attributed rental CSV is included. Obtain the NOAA station file using the source link in [DATA.md](DATA.md). The CLI takes an explicit local snapshot, so it never silently changes the weather source during a run.
 
-See [DATA.md](DATA.md) for required inputs and [VALIDATION.md](VALIDATION.md) for the checks and runtime versions.
+Each run writes `index.html` and `metrics.json` to the chosen output directory. The JSON records the measured results, input SHA-256 fingerprints, source-code fingerprints, dependency versions and analytical settings. To use the notebooks, install the optional `notebooks` dependencies.
 
-## Scope
+## Interpretation
 
-The results describe associations. Airport weather is a regional proxy; season, working days and system growth can affect demand. Missing hourly records are not treated as zero rentals.
+This estimates historical demand using contemporaneous observed weather. It is not a forecast using predicted future weather. The weather model loses to the seven-day baseline in one of three earlier validation periods. That finding argues for monitoring regime changes before deploying a demand model.
+
+## Portfolio
+
+- [Bike-Share Customer Behavior](https://github.com/FerasElghandour/bikeshare-customer-behavior)
+- [Movie Revenue: Selection, Sensitivity & Uncertainty](https://github.com/FerasElghandour/movie-revenue-analysis)
+- [Shared-Policy Continuous Control](https://github.com/FerasElghandour/tennis-reinforcement-learning)
 
 ---
 
-**Feras Elghandour** · [GitHub](https://github.com/FerasElghandour)
+**Feras Elghandour** · [GitHub](https://github.com/FerasElghandour)  
+Data sources and applicable license notices: [DATA.md](DATA.md).
