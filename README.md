@@ -1,26 +1,37 @@
-# Washington Bike-Share and Weather
+# Bike-Share Demand & Weather
 
-Combine UCI Capital Bikeshare hourly counts with NOAA daily weather observations, validate source quality and reshape the records into daily analysis tables.
+How does weather relate to bike-share demand—and how much can incomplete data distort the answer? This project combines hourly rental records with daily weather observations to build a validated dataset for demand analysis.
 
-## Completion
+**Python · pandas · NumPy · Matplotlib · seaborn · requests**
 
-Udacity project: **Real World Data Wrangling with Python**. Passed on **2026-10-11**, verified against the authenticated Udacity project-pass email. The receipt is kept privately.
+![Daily rental distributions by precipitation group and year](assets/analysis.png)
 
-This is a cleaned portfolio edition of the recovered implementation associated with that project. Udacity's email confirms the project passed; it does not certify this Git commit or identify the accepted archive by hash.
+## Results
 
-## Approach
+| Finding | Result |
+|---|---|
+| Missing date/hour slots identified | 165 across 76 dates |
+| Median rentals on precipitation days, relative to zero-reported days | 17.3% lower in 2011; 20.4% lower in 2012 |
+| Rental coverage for the main comparison | Dates with all 24 coded hours |
 
-The notebook checks missing hour slots, decodes NOAA missing values and quality flags, reshapes monthly weather records, restricts rentals to dates with 24 coded hours, and joins daily rental counts to temperature and precipitation.
+## Implementation
 
-## Recorded results
+- Integrated UCI Capital Bikeshare counts with NOAA station observations using two different acquisition methods.
+- Decoded weather missing-value and quality flags, reshaped monthly records into daily observations, and aligned units before joining sources.
+- Built validation checks for duplicate keys, hour coverage, rental totals and temperature consistency.
+- Separated raw inputs, cleaned tables and figures, with a source manifest for traceability.
 
-The saved analysis found 165 absent date/hour slots across 76 dates. On the complete-hour cohort, median rentals on days with measured precipitation were about 17.3% lower in 2011 and 20.4% lower in 2012 than on days with zero reported precipitation. These are descriptive associations.
+## Practical relevance
 
-These figures come from saved execution records. Release validation is described in `VALIDATION.md`.
+Demonstrates the data preparation and validation work behind operational reporting, demand analysis and forecasting pipelines. The weather comparisons provide questions to investigate when planning fleet availability.
 
-## Run
+## Explore the project
 
-Release execution checks used Python 3.14.3; analysis dependency versions are pinned in `requirements.txt`.
+- `bikeshare_weather.ipynb` — acquisition, assessment, cleaning, validation and analysis.
+- `raw/uci_bikeshare_hourly.csv` — attributed hourly input.
+- `DATA.md` — source details and input requirements.
+
+## Run locally
 
 ```sh
 python -m venv .venv
@@ -29,16 +40,15 @@ python -m pip install -r requirements.txt
 jupyter lab
 ```
 
-Open `bikeshare_weather.ipynb` and run all cells from the repository root. The first run needs access to NOAA. The notebook creates `raw/`, `cleaned/` and `figures/` as needed.
+Open `bikeshare_weather.ipynb` from the repository root and run the cells in order. The first run downloads the NOAA station file. Output tables and charts are written to `cleaned/` and `figures/`.
 
-See [DATA.md](DATA.md) for inputs, attribution and excluded materials. Notebook outputs are cleared in this edition to exclude raw-data previews and machine-specific output.
+See [DATA.md](DATA.md) for required inputs and [VALIDATION.md](VALIDATION.md) for the checks and runtime versions.
 
-## Limitations
+## Scope
 
-Airport weather is a regional proxy. Season, working days and system growth can confound the comparisons. Missing hourly records are not assumed to mean zero demand. NOAA data can be revised, so a fresh download may differ from the original run.
+The results describe associations. Airport weather is a regional proxy; season, working days and system growth can affect demand. Missing hourly records are not treated as zero rentals.
 
-## Provenance and rights
+---
 
-Prepared by Mohamed Feras Elghandour with AI assistance in implementation, debugging, analysis and documentation. This repository does not claim unaided coding or production deployment. Udacity supplied the educational context; third-party tools and inputs retain their own rights. Course lesson text, assessment prompts, rubrics, answer keys, pass-email bodies and authenticated classroom captures are excluded.
-
-No new repository-wide software license is granted in this release. Existing third-party license notices remain applicable; see [DATA.md](DATA.md) and any `third_party/` or `vendor/` notices. This is an educational portfolio project, without a claim of Udacity endorsement.
+**Feras Elghandour** · [GitHub](https://github.com/FerasElghandour)  
+[Attribution and development notes](ATTRIBUTION.md)
