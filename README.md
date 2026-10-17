@@ -50,5 +50,4 @@ The results describe associations. Airport weather is a regional proxy; season, 
 
 ---
 
-**Feras Elghandour** · [GitHub](https://github.com/FerasElghandour)  
-[Attribution and development notes](ATTRIBUTION.md)
+**Feras Elghandour** · [GitHub](https://github.com/FerasElghandour)
