@@ -1,0 +1,5 @@
+# Data and third-party materials
+
+The UCI hourly CSV is included in `raw/`. It is a CSV representation of the original dataset, without analytical cleaning. Source: Hadi Fanaee-T (2013), Bike Sharing, UCI Machine Learning Repository, DOI [10.24432/C5W894](https://doi.org/10.24432/C5W894), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+The NOAA station file is downloaded on first execution to `raw/noaa_washington_reagan_USW00013743.dly`. Source: Menne et al. (2012), Global Historical Climatology Network - Daily, Version 3, station USW00013743, DOI [10.7289/V5D21VHZ](https://doi.org/10.7289/V5D21VHZ). Dataset documentation and use constraints: [NOAA NCEI](https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00861). Also cite Menne et al., An Overview of the Global Historical Climatology Network-Daily Database, DOI [10.1175/JTECH-D-11-00103.1](https://doi.org/10.1175/JTECH-D-11-00103.1). The weather source is mutable; an offline reproduction needs the downloaded station snapshot.
