@@ -8,14 +8,7 @@ A quality-gated data pipeline and chronological modelling benchmark that connect
 
 ## How it works
 
-```mermaid
-flowchart TD
-    N0["Hourly rental counts"] --> N1
-    N1["Exclude incomplete 24-hour days"] --> N2
-    N2["Aggregate counts and join daily weather"] --> N3
-    N3["Fit weekday-adjusted analysis"] --> N4
-    N4["Inspect estimates and data-quality audit"]
-```
+![Implementation mechanism: Hourly rental counts → Exclude incomplete 24-hour days → Aggregate counts and join daily weather → Fit weekday-adjusted analysis → Inspect estimates and data-quality audit](assets/mechanism.svg)
 
 ## Try a small example
 
